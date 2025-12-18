@@ -3,57 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Library - Setup Required</title>
+    <title>Book Library - FlipBooks</title>
     <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .book-cover {
+            height: 200px;
+            background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;
+            color: white;
+            font-size: 3rem;
+        }
+        .book-info {
             padding: 20px;
         }
-        .card {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            max-width: 600px;
+        .book-info h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        .book-info p {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        .read-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: opacity 0.3s ease;
+        }
+        .read-btn:hover {
+            opacity: 0.9;
+        }
+        footer {
             text-align: center;
+            color: white;
+            margin-top: 60px;
+            opacity: 0.8;
         }
-        h1 { color: #333; margin-bottom: 20px; }
-        p { color: #666; line-height: 1.6; margin-bottom: 15px; }
-        code {
-            background: #f5f5f5;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.9em;
+        footer a {
+            color: white;
         }
-        .steps {
-            text-align: left;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .steps li { margin: 10px 0; color: #555; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Book Library</h1>
-        <p>Your FlipBook library is ready! Run the GitHub Actions workflow to generate content.</p>
-        <div class="steps">
-            <strong>Next Steps:</strong>
-            <ol>
-                <li>Add your <code>doc_processor</code> binary to <code>bin/</code></li>
-                <li>Add story content to <code>content/stories/</code></li>
-                <li>Push to main branch or trigger workflow manually</li>
-                <li>This page will be replaced with your book library</li>
-            </ol>
+    <div class="container">
+        <header>
+            <h1>📚 Book Library</h1>
+            <p>Browse and read interactive FlipBooks</p>
+        </header>
+        <div class="books-grid">
+            <div class="book-card">
+                <div class="book-cover">📖</div>
+                <div class="book-info">
+                    <h2>My Life Story</h2>
+                    <p>by John Doe</p>
+                    <p>A journey through time - 13 pages</p>
+                    <a href="sample-story/" class="read-btn">Read Now →</a>
+                </div>
+            </div>
         </div>
+        <footer>
+            <p>Powered by <a href="https://github.com/mskim/book_project">Book Processor</a> • StPageFlip</p>
+        </footer>
     </div>
 </body>
 </html>

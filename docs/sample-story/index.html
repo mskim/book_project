@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Life Story</title>
+    <link rel="stylesheet" href="flipbook.css">
+    <style>
+        .page-content {
+            padding: 0 !important;
+        }
+        .page-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <header class="book-header">
+            <h1>Sample Life Story</h1>
+            <p class="author">by John Doe</p>
+        </header>
+
+        <div class="flipbook-wrapper">
+            <div class="flipbook" id="flipbook">
+                
+            <div class="page" data-page="1">
+                <div class="page-content page-image">
+                    <img src="page_001.png" alt="Page 1" loading="lazy">
+                </div>
+                <div class="page-number">1</div>
+            </div>
+            <div class="page" data-page="2">
+                <div class="page-content page-image">
+                    <img src="page_002.png" alt="Page 2" loading="lazy">
+                </div>
+                <div class="page-number">2</div>
+            </div>
+            <div class="page" data-page="3">
+                <div class="page-content page-image">
+                    <img src="page_003.png" alt="Page 3" loading="lazy">
+                </div>
+                <div class="page-number">3</div>
+            </div>
+            <div class="page" data-page="4">
+                <div class="page-content page-image">
+                    <img src="page_004.png" alt="Page 4" loading="lazy">
+                </div>
+                <div class="page-number">4</div>
+            </div>
+            <div class="page" data-page="5">
+                <div class="page-content page-image">
+                    <img src="page_005.png" alt="Page 5" loading="lazy">
+                </div>
+                <div class="page-number">5</div>
+            </div>
+            <div class="page" data-page="6">
+                <div class="page-content page-image">
+                    <img src="page_006.png" alt="Page 6" loading="lazy">
+                </div>
+                <div class="page-number">6</div>
+            </div>
+            <div class="page" data-page="7">
+                <div class="page-content page-image">
+                    <img src="page_007.png" alt="Page 7" loading="lazy">
+                </div>
+                <div class="page-number">7</div>
+            </div>
+            <div class="page" data-page="8">
+                <div class="page-content page-image">
+                    <img src="page_008.png" alt="Page 8" loading="lazy">
+                </div>
+                <div class="page-number">8</div>
+            </div>
+            <div class="page" data-page="9">
+                <div class="page-content page-image">
+                    <img src="page_009.png" alt="Page 9" loading="lazy">
+                </div>
+                <div class="page-number">9</div>
+            </div>
+            <div class="page" data-page="10">
+                <div class="page-content page-image">
+                    <img src="page_010.png" alt="Page 10" loading="lazy">
+                </div>
+                <div class="page-number">10</div>
+            </div>
+            <div class="page" data-page="11">
+                <div class="page-content page-image">
+                    <img src="page_011.png" alt="Page 11" loading="lazy">
+                </div>
+                <div class="page-number">11</div>
+            </div>
+            <div class="page" data-page="12">
+                <div class="page-content page-image">
+                    <img src="page_012.png" alt="Page 12" loading="lazy">
+                </div>
+                <div class="page-number">12</div>
+            </div>
+            <div class="page" data-page="13">
+                <div class="page-content page-image">
+                    <img src="page_013.png" alt="Page 13" loading="lazy">
+                </div>
+                <div class="page-number">13</div>
+            </div>
+            </div>
+        </div>
+
+        <nav class="book-controls">
+            <button id="prev-btn" class="nav-btn" aria-label="Previous page">
+                <span>←</span> Previous
+            </button>
+            <span class="page-indicator">
+                Page <span id="current-page">1</span> of <span id="total-pages">13</span>
+            </span>
+            <button id="next-btn" class="nav-btn" aria-label="Next page">
+                Next <span>→</span>
+            </button>
+        </nav>
+
+        <div class="book-toc" id="toc">
+            <h2>Options</h2>
+            <ul>
+                <li><a href="sample-story.pdf" download>📥 Download PDF</a></li>
+                <li><a href="#" onclick="toggleFullscreen(); return false;">🔲 Fullscreen (F)</a></li>
+                <li><a href="../">← Back to Library</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="page-flip.min.js"></script>
+    <script src="flipbook.js"></script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+/* FlipBook Styles with StPageFlip */
+:root {
+    --page-width: 550px;
+    --page-height: 733px;
+    --page-bg: #fffef5;
+    --page-shadow: rgba(0, 0, 0, 0.2);
+    --accent-color: #8b4513;
+    --text-color: #333;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.book-container {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.book-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.book-header .author {
+    font-style: italic;
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+/* FlipBook Wrapper */
+.flipbook-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    perspective: 2000px;
+}
+
+.flipbook {
+    background: transparent;
+}
+
+/* Page Styles for StPageFlip */
+.page {
+    background-color: var(--page-bg);
+    overflow: hidden;
+    position: relative;
+}
+
+.page-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: var(--page-bg);
+}
+
+.page-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Cover page */
+.page.cover {
+    background: linear-gradient(135deg, var(--accent-color) 0%, #654321 100%);
+}
+
+.page.cover .page-content {
+    background: transparent;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+}
+
+.page.cover h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.page.cover .author {
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+/* Page shadow effect */
+.stf__block {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Navigation Controls */
+.book-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.nav-btn {
+    background: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-family: inherit;
+}
+
+.nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-btn:active {
+    transform: translateY(0);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.page-indicator {
+    color: white;
+    font-size: 1.1rem;
+    min-width: 150px;
+    text-align: center;
+}
+
+/* Table of Contents */
+.book-toc {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.book-toc h2 {
+    color: var(--accent-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.book-toc ul {
+    list-style: none;
+}
+
+.book-toc li {
+    padding: 10px 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.book-toc li:last-child {
+    border-bottom: none;
+}
+
+.book-toc a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    transition: color 0.3s ease;
+}
+
+.book-toc a:hover {
+    color: var(--accent-color);
+}
+
+.book-toc .page-num {
+    color: #888;
+}
+
+/* Download button */
+.download-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: opacity 0.3s;
+}
+
+.download-btn:hover {
+    opacity: 0.9;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    :root {
+        --page-width: 450px;
+        --page-height: 600px;
+    }
+}
+
+@media (max-width: 960px) {
+    :root {
+        --page-width: 350px;
+        --page-height: 467px;
+    }
+
+    .book-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .book-controls {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .nav-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --page-width: 300px;
+        --page-height: 400px;
+    }
+
+    body {
+        padding: 10px;
+    }
+
+    .book-header {
+        margin-bottom: 20px;
+    }
+
+    .book-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .book-toc {
+        padding: 20px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+    }
+
+    .book-controls,
+    .book-toc,
+    .book-header {
+        display: none;
+    }
+
+    .flipbook-wrapper {
+        display: block;
+    }
+
+    .page {
+        page-break-after: always;
+    }
+}
+
+/* Loading state */
+.flipbook.loading {
+    opacity: 0.5;
+}
+
+/* Fullscreen mode */
+.fullscreen .book-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: none;
+    z-index: 9999;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}

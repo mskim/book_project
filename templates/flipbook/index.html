@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{BOOK_TITLE}}</title>
+    <link rel="stylesheet" href="flipbook.css">
+</head>
+<body>
+    <div class="book-container">
+        <header class="book-header">
+            <h1>{{BOOK_TITLE}}</h1>
+            <p class="author">by {{AUTHOR_NAME}}</p>
+        </header>
+
+        <div class="flipbook-wrapper">
+            <div class="flipbook" id="flipbook">
+                <!-- Pages will be injected here -->
+                {{PAGES_CONTENT}}
+            </div>
+        </div>
+
+        <nav class="book-controls">
+            <button id="prev-btn" class="nav-btn" aria-label="Previous page">
+                <span>←</span> Previous
+            </button>
+            <span class="page-indicator">
+                Page <span id="current-page">1</span> of <span id="total-pages">1</span>
+            </span>
+            <button id="next-btn" class="nav-btn" aria-label="Next page">
+                Next <span>→</span>
+            </button>
+        </nav>
+
+        <div class="book-toc" id="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                {{TOC_CONTENT}}
+            </ul>
+        </div>
+    </div>
+
+    <script src="page-flip.min.js"></script>
+    <script src="flipbook.js"></script>
+</body>
+</html>

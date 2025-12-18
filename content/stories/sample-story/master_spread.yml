@@ -1,0 +1,15 @@
+spreads:
+  - id: "MasterSpread/A-Master"
+    name: "A-Master"
+    pages:
+      - id: "Page/1"
+        name: "1"
+        textFrames:
+          - id: "TextFrame/main"
+            x: 72.0
+            y: 72.0
+            width: 468.0
+            height: 648.0
+            parentStory: "Story/main"
+pageWidth: 612.0
+pageHeight: 792.0

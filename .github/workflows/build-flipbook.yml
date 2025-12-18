@@ -1,0 +1,198 @@
+name: Build and Deploy FlipBook
+
+on:
+  # Trigger on push to main branch
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+      - 'templates/**'
+
+  # Manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      story_id:
+        description: 'Story ID to process (leave empty for all)'
+        required: false
+        type: string
+
+  # Webhook trigger (from Bee server)
+  repository_dispatch:
+    types: [bee-recording-ready, process-story]
+
+  # Scheduled trigger (daily at 2 AM UTC)
+  schedule:
+    - cron: '0 2 * * *'
+
+# Sets permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          echo "Setting up environment..."
+          echo "Trigger: ${{ github.event_name }}"
+          echo "Story ID: ${{ github.event.inputs.story_id || github.event.client_payload.story_id || 'all' }}"
+
+      - name: Setup Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.0"
+
+      - name: Cache Swift packages
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-swift-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-swift-
+
+      - name: Clone and build doc_processor
+        run: |
+          # Clone doc_processor if not present
+          if [ ! -d "doc_processor" ]; then
+            git clone https://github.com/anthropics/doc_processor.git doc_processor || {
+              echo "Using local doc_processor source..."
+              # Fallback: assume it's included in repo or use pre-built
+            }
+          fi
+
+          # Build doc_processor
+          if [ -d "doc_processor" ]; then
+            cd doc_processor
+            swift build -c release
+            cp .build/release/doc_processor ../bin/
+            cd ..
+          fi
+
+          # Make executable
+          chmod +x bin/doc_processor 2>/dev/null || true
+
+      - name: Process stories with doc_processor
+        run: |
+          # Create output directories
+          mkdir -p output/pdf
+          mkdir -p output/flipbook
+
+          # Get story ID from various trigger sources
+          STORY_ID="${{ github.event.inputs.story_id || github.event.client_payload.story_id || '' }}"
+
+          # Function to process a single story
+          process_story() {
+            local story_dir=$1
+            local story_name=$(basename "$story_dir")
+
+            echo "=========================================="
+            echo "Processing story: $story_name"
+            echo "=========================================="
+
+            # Check for required style files (master_spread.yml, styles.yml)
+            if [ -f "$story_dir/master_spread.yml" ] && [ -f "$story_dir/styles.yml" ]; then
+              echo "Found style files - using doc_processor generate"
+
+              # Generate PDF using doc_processor
+              ./bin/doc_processor generate "$story_dir" || {
+                echo "Warning: doc_processor generate failed"
+              }
+
+              # Move generated PDF to output folder
+              if [ -f "$story_dir/output.pdf" ]; then
+                mv "$story_dir/output.pdf" "output/pdf/${story_name}.pdf"
+                echo "Generated: output/pdf/${story_name}.pdf"
+              fi
+
+            # Fallback to simple markdown files (HTML only)
+            else
+              echo "No style files found - using fallback HTML generation"
+              ./scripts/build-flipbook.sh "$story_name"
+            fi
+
+            # Convert PDF to FlipBook HTML (if PDF exists)
+            if [ -f "output/pdf/${story_name}.pdf" ]; then
+              echo "Converting PDF to FlipBook..."
+              ./scripts/pdf-to-flipbook.sh "$story_name"
+            fi
+          }
+
+          # Process stories
+          if [ -f bin/doc_processor ]; then
+            if [ -n "$STORY_ID" ]; then
+              # Process specific story
+              if [ -d "content/stories/$STORY_ID" ]; then
+                process_story "content/stories/$STORY_ID"
+              else
+                echo "Error: Story '$STORY_ID' not found"
+                exit 1
+              fi
+            else
+              # Process all stories
+              for story_dir in content/stories/*/; do
+                if [ -d "$story_dir" ]; then
+                  process_story "$story_dir"
+                fi
+              done
+            fi
+          else
+            echo "doc_processor not available, using fallback script"
+            ./scripts/build-flipbook.sh "$STORY_ID"
+          fi
+
+      - name: Copy to docs for GitHub Pages
+        run: |
+          # Copy generated flipbooks to docs folder
+          cp -r output/flipbook/* docs/ 2>/dev/null || true
+
+          # Copy PDFs to docs folder for download
+          mkdir -p docs/downloads
+          cp output/pdf/*.pdf docs/downloads/ 2>/dev/null || true
+
+          # Generate index page
+          ./scripts/generate-index.sh
+
+      - name: Upload artifact for Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  notify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'repository_dispatch' }}
+
+    steps:
+      - name: Send notification
+        run: |
+          echo "FlipBook deployed successfully!"
+          echo "URL: ${{ needs.deploy.outputs.page_url }}"
+          # Add webhook notification back to Bee server if needed
+          # curl -X POST "${{ secrets.BEE_WEBHOOK_URL }}" \
+          #   -H "Content-Type: application/json" \
+          #   -d '{"status": "deployed", "story_id": "${{ github.event.client_payload.story_id }}"}'

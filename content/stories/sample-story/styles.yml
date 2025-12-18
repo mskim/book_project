@@ -1,0 +1,76 @@
+paragraphStyles:
+  - id: "ParagraphStyle/Heading 1"
+    name: "Heading 1"
+    fontFamily: "Helvetica"
+    fontSize: 24.0
+    fontStyle: "Bold"
+    leading: 28.0
+    tracking: 0.0
+    fillColor: "Color/Red"
+  - id: "ParagraphStyle/Heading 2"
+    name: "Heading 2"
+    fontFamily: "Helvetica"
+    fontSize: 18.0
+    fontStyle: "Bold"
+    leading: 22.0
+    tracking: 0.0
+    fillColor: "Color/Green"
+  - id: "ParagraphStyle/Body"
+    name: "Body"
+    fontFamily: "Helvetica"
+    fontSize: 12.0
+    fontStyle: "Regular"
+    leading: 16.0
+    tracking: 0.0
+    fillColor: "Color/Black"
+  - id: "ParagraphStyle/Code"
+    name: "Code"
+    fontFamily: "Courier"
+    fontSize: 10.0
+    fontStyle: "Regular"
+    leading: 14.0
+    tracking: 0.0
+    fillColor: "Color/Black"
+  - id: "ParagraphStyle/Quote"
+    name: "Quote"
+    fontFamily: "Helvetica"
+    fontSize: 11.0
+    fontStyle: "Italic"
+    leading: 15.0
+    tracking: 0.0
+    fillColor: "Color/Gray"
+  - id: "ParagraphStyle/Table"
+    name: "Table"
+    fontFamily: "Courier"
+    fontSize: 10.0
+    fontStyle: "Regular"
+    leading: 14.0
+    tracking: 0.0
+    fillColor: "Color/Black"
+  - id: "ParagraphStyle/TableHeader"
+    name: "Table Header"
+    fontFamily: "Courier"
+    fontSize: 10.0
+    fontStyle: "Bold"
+    leading: 14.0
+    tracking: 0.0
+    fillColor: "Color/Blue"
+characterStyles:
+  - id: "CharacterStyle/Bold"
+    name: "Bold"
+    fontFamily: "Helvetica"
+    fontSize: 12.0
+    fontStyle: "Bold"
+    fillColor: "Color/Black"
+  - id: "CharacterStyle/Italic"
+    name: "Italic"
+    fontFamily: "Helvetica"
+    fontSize: 12.0
+    fontStyle: "Italic"
+    fillColor: "Color/Black"
+  - id: "CharacterStyle/Code"
+    name: "Code"
+    fontFamily: "Courier"
+    fontSize: 11.0
+    fontStyle: "Regular"
+    fillColor: "Color/Black"
